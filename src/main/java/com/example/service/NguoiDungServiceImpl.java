@@ -2,7 +2,7 @@ package com.example.service;
 
 import com.example.DTO.NguoiDungDTO;
 import com.example.Entity.Nguoi_Dung;
-//import com.example.config.ConfigSecurity;
+import com.example.config.ConfigSecurity;
 import com.example.repository.NguoiDungRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -23,15 +23,15 @@ import java.util.Optional;
 @Service
 public class NguoiDungServiceImpl implements NguoiDungService {
     private NguoiDungRepository nguoiDungRepo;
-             private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public NguoiDungServiceImpl(NguoiDungRepository nguoiDungRepo) {
+    public NguoiDungServiceImpl(NguoiDungRepository nguoiDungRepo, PasswordEncoder passwordEncoder) {
         this.nguoiDungRepo = nguoiDungRepo;
         this.passwordEncoder=passwordEncoder;
     }
 
-
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Nguoi_Dung nguoiDung=nguoiDungRepo.findByUserName(username);
         if(nguoiDung==null){
@@ -78,7 +78,6 @@ public class NguoiDungServiceImpl implements NguoiDungService {
         nguoiDung.setUserName(nguoiDungDTO.getUserName());
         // MÃ HÓA PASSWORD trước khi lưu vào database
         nguoiDung.setPassword(this.passwordEncoder.encode(nguoiDungDTO.getPassword()));
-        nguoiDung.setPassword(nguoiDungDTO.getPassword());
 
         try {
             nguoiDungRepo.save(nguoiDung);
