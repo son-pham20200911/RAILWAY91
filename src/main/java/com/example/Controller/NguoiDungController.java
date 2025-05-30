@@ -27,7 +27,7 @@ public class NguoiDungController {
         this.nguoiDungService = nguoiDungService;
     }
 
-    @PostMapping("dangKy")
+    @PostMapping("/dangKy")
     public ResponseEntity<?> dangKy(@RequestBody NguoiDungDTO nguoiDungDTO) {
         return ResponseEntity.ok(nguoiDungService.dangKy(nguoiDungDTO));
     }
